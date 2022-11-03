@@ -10,6 +10,7 @@ from PIL import ImageTk, Image
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 import numpy as np
+import openpyxl
 
 
 
@@ -57,6 +58,55 @@ class Aplicacion():
             saldo_acumulado = saldo_acumulado + float(a[0])  
             self.listaSeleccion.insert("", "end", text=a[1],values=[round(float(a[0]),2),round(saldo_acumulado,2)])  
             
+    #Nueva funcionalidad listado de cheques en Excel
+    def exportar_periodo_excel(self):
+        query = "SELECT cheques.id,cheques.numero, strftime('%d/%m/%Y',cheques.fecha_e), strftime('%d/%m/%Y',cheques.fecha_v), cheques.importe, entidades.entidad, cheques.echeq, cheques.estado FROM cheques INNER JOIN entidades ON entidades.id_entidad = cheques.id_entidad WHERE (cheques.pendiente = 1) ORDER BY fecha_v" #GROUP BY strftime('%m-%Y',fecha_v)
+        
+        arreglo_datos = []
+
+        cheques = self.run_query(query)
+        for c in cheques:
+            if int(c[6]) == 1:
+                if int(c[7]) == 1:
+                    arreglo_datos.append([c[0],c[2],c[1],c[5],c[3],"ECHEQ","EN CURSO",c[4]])
+                else:
+                    arreglo_datos.append([c[0],c[2],c[1],c[5],c[3],"ECHEQ","",c[4]])
+            else:
+                if int(c[7]) == 1:
+                    arreglo_datos.append([c[0],c[2],c[1],c[5],c[3],"","EN CURSO",c[4]])
+                else:
+                    arreglo_datos.append([c[0],c[2],c[1],c[5],c[3],"","",c[4]])
+                    
+        
+        #convertir a excel
+        try:
+            wb = openpyxl.Workbook() #Genero un libro de trabajo
+            hoja = wb.active
+            hoja.append(["ID", "F. Emisión", "Nro Cheque", "Entidad", "F. Vto", "Tipo", "Estado", "Importe","Saldo Acumulado"])
+
+            #ultimo saldo
+            query = "SELECT saldo, fecha FROM saldo WHERE id = (SELECT MAX(id) FROM saldo)"
+            ult_saldo = self.run_query(query)
+            for s in ult_saldo:
+                fecha = datetime.strptime(s[1], "%Y-%m-%d %H:%M:%S")
+                fecha = fecha.strftime("%d/%m/%Y")
+                hoja.append(["",str(fecha),"","Saldo Bancario",str(fecha),"","","",float(s[0])])
+
+            contador = 1
+            for fila in arreglo_datos:
+                hoja.append(fila)
+                acum = float(hoja["I{}".format(contador+1)].value)+float(fila[7])
+                hoja.cell(row=contador+2, column=9, value=acum)
+                contador = contador + 1
+            wb.save('cheques.xlsx')
+            messagebox.showinfo(message="Archivo .xlsx creado con exito")
+            
+        except:
+            messagebox.showerror(title="Error",message="Se produjo un error en el proceso. Verifica que el archivo no se encuentre abierto.")
+
+
+    ####################################################
+
     def mostrar_detalle(self):
         for elements in self.listaDetalle.get_children():
             self.listaDetalle.delete(elements)
@@ -523,7 +573,7 @@ class Aplicacion():
         framestats = tk.LabelFrame(self.ventana,text="Visual",font=("Arial",12,"bold"))
         framestats.grid(row=1,column=0,padx=5,pady=1,sticky="NSEW")
         
-        frameGraf = tk.LabelFrame(framestats,text="Gráficos",font=("Arial",10,"bold"))
+        frameGraf = tk.LabelFrame(framestats,text="Gráficos y Datos",font=("Arial",10,"bold"))
         frameGraf.grid(row=0,column=0,padx=5,pady=1,sticky="NS")
         
         self.botonVerGraficaSaldo = tk.Button(frameGraf,command=self.graficar_saldo,text="Graficar Saldo",width=15,bg = "lightblue",font=("Arial",8,"bold"),activebackground="blue")
@@ -531,7 +581,9 @@ class Aplicacion():
         
         self.botonVerGraficaSaldoAc = tk.Button(frameGraf,command=self.graficar_saldo_acum,text="Graficar Saldo\nAcumulado",width=15,bg = "lightblue",font=("Arial",8,"bold"),activebackground="blue")
         self.botonVerGraficaSaldoAc.grid(row=1,column=1,padx=5,pady=3,sticky="NS")
-        
+
+        self.botonExportarAExcel = tk.Button(frameGraf,command=self.exportar_periodo_excel,text="Exportar a Excel",width=15,bg = "lightblue",font=("Arial",8,"bold"),activebackground="blue")
+        self.botonExportarAExcel.grid(row=2,column=1,padx=5,pady=3,sticky="NS")
         
         frameBotones = tk.LabelFrame(self.ventana,text="Opciones",font=("Arial",12,"bold"))
         frameBotones.grid(row=2,column=0,padx=5,pady=1,sticky="NS")
