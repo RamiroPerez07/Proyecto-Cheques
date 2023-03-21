@@ -621,7 +621,7 @@ class Aplicacion():
         #------- Saldos --------#
         ####################################################################
         #Saldos
-        frame_saldo = tk.LabelFrame(self.ventana,text="Saldo Bco. Provincia",font=("Arial",12,"bold"), fg="green")
+        frame_saldo = tk.LabelFrame(self.ventana,text="Saldo Bco. Santander",font=("Arial",12,"bold"), fg="red")
         frame_saldo.grid(row=0,column=1,padx=5,pady=1,sticky="NSEW")
         
         frame_entrys = tk.Frame(frame_saldo)

@@ -57,7 +57,7 @@ class Aplicacion():
         for a in periodos:
             saldo_acumulado = saldo_acumulado + float(a[0])  
             self.listaSeleccion.insert("", "end", text=a[1],values=[round(float(a[0]),2),round(saldo_acumulado,2)])  
-
+            
     #Nueva funcionalidad listado de cheques en Excel
     def exportar_periodo_excel(self):
         query = "SELECT cheques.id,cheques.numero, strftime('%d/%m/%Y',cheques.fecha_e), strftime('%d/%m/%Y',cheques.fecha_v), cheques.importe, entidades.entidad, cheques.echeq, cheques.estado FROM cheques INNER JOIN entidades ON entidades.id_entidad = cheques.id_entidad WHERE (cheques.pendiente = 1) ORDER BY fecha_v" #GROUP BY strftime('%m-%Y',fecha_v)
@@ -262,7 +262,7 @@ class Aplicacion():
         
         ventana_grafica = tk.Toplevel()
         ventana_grafica.focus_force()
-        ventana_grafica.iconbitmap("rab_logo.ico")
+        ventana_grafica.iconbitmap("fsn_logo.ico")
         
         labelpos = np.arange(len(absisas))
         
@@ -447,9 +447,9 @@ class Aplicacion():
         
         ventana_lista = tk.Toplevel()
         ventana_lista.title("Listado detallado de cheques")
+        ventana_lista.iconbitmap("fsn_logo.ico")
         ventana_lista.focus_force()
         ventana_lista.resizable(0,0)
-        ventana_lista.iconbitmap("rab_logo.ico")
         
         self.inhabilitar_botones()
         
@@ -543,8 +543,8 @@ class Aplicacion():
         
     def __init__(self,ventana):
         self.ventana = ventana
-        self.ventana.title("Cascada de Cheques - Textil RAB San Nicolás SRL - © Ramiro Perez")
-        self.ventana.iconbitmap("rab_logo.ico")
+        self.ventana.title("Cascada de Cheques - Farmacia San Nicolás SCS - © Ramiro Perez")
+        self.ventana.iconbitmap("fsn_logo.ico")
         self.ventana.focus_force()
         self.ventana.resizable(0,0)
         
@@ -555,7 +555,7 @@ class Aplicacion():
         framelogo = tk.Frame(self.ventana)
         framelogo.grid(row=0,column=0,padx=5,pady=1,sticky="NS")
 
-        self.img = Image.open(fp=r'rab-png.png')
+        self.img = Image.open(fp=r'fsn_logo-png.png')
         o_size = self.img.size
         f_size = (80,80)
         
@@ -573,7 +573,7 @@ class Aplicacion():
         framestats = tk.LabelFrame(self.ventana,text="Visual",font=("Arial",12,"bold"))
         framestats.grid(row=1,column=0,padx=5,pady=1,sticky="NSEW")
         
-        frameGraf = tk.LabelFrame(framestats,text="Gráficos",font=("Arial",10,"bold"))
+        frameGraf = tk.LabelFrame(framestats,text="Gráficos y Datos",font=("Arial",10,"bold"))
         frameGraf.grid(row=0,column=0,padx=5,pady=1,sticky="NS")
         
         self.botonVerGraficaSaldo = tk.Button(frameGraf,command=self.graficar_saldo,text="Graficar Saldo",width=15,bg = "lightblue",font=("Arial",8,"bold"),activebackground="blue")
@@ -581,7 +581,7 @@ class Aplicacion():
         
         self.botonVerGraficaSaldoAc = tk.Button(frameGraf,command=self.graficar_saldo_acum,text="Graficar Saldo\nAcumulado",width=15,bg = "lightblue",font=("Arial",8,"bold"),activebackground="blue")
         self.botonVerGraficaSaldoAc.grid(row=1,column=1,padx=5,pady=3,sticky="NS")
-        
+
         self.botonExportarAExcel = tk.Button(frameGraf,command=self.exportar_periodo_excel,text="Exportar a Excel",width=15,bg = "lightblue",font=("Arial",8,"bold"),activebackground="blue")
         self.botonExportarAExcel.grid(row=2,column=1,padx=5,pady=3,sticky="NS")
         
@@ -621,7 +621,7 @@ class Aplicacion():
         #------- Saldos --------#
         ####################################################################
         #Saldos
-        frame_saldo = tk.LabelFrame(self.ventana,text="Saldo Bco. Provincia",font=("Arial",12,"bold"), fg="green")
+        frame_saldo = tk.LabelFrame(self.ventana,text="Saldo Bco. Santander",font=("Arial",12,"bold"), fg="red")
         frame_saldo.grid(row=0,column=1,padx=5,pady=1,sticky="NSEW")
         
         frame_entrys = tk.Frame(frame_saldo)
@@ -836,7 +836,7 @@ class Aplicacion():
         ventana = tk.Toplevel()
         ventana.title("Entidades")
         ventana.resizable(0,0)
-        ventana.iconbitmap("rab_logo.ico")
+        ventana.iconbitmap("fsn_logo.ico")
         self.inhabilitar_botones()
         
         fr_nueva_entidad = tk.LabelFrame(ventana,text="Entidades",foreground="green",font=("Arial",12,"bold"))
@@ -1130,8 +1130,8 @@ class Aplicacion():
             
             ventana = tk.Toplevel()
             ventana.title("Modificar cheque")
+            ventana.iconbitmap("fsn_logo.ico")
             ventana.resizable(0,0)
-            ventana.iconbitmap("rab_logo.ico")
             self.inhabilitar_botones()
             
             fr_mod_cheque=tk.LabelFrame(ventana,text="Nuevo Cheque",foreground="green",font=("Arial",12,"bold"))
@@ -1315,7 +1315,7 @@ class Aplicacion():
         ventana = tk.Toplevel()
         ventana.title("Cargar nuevo cheque")
         ventana.resizable(0,0)
-        ventana.iconbitmap("rab_logo.ico")
+        ventana.iconbitmap("fsn_logo.ico")
         
         self.inhabilitar_botones()
         

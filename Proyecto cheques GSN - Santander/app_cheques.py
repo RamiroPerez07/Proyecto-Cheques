@@ -262,7 +262,7 @@ class Aplicacion():
         
         ventana_grafica = tk.Toplevel()
         ventana_grafica.focus_force()
-        ventana_grafica.iconbitmap("rab_logo.ico")
+        ventana_grafica.iconbitmap("icono_genericos.ico")
         
         labelpos = np.arange(len(absisas))
         
@@ -449,7 +449,7 @@ class Aplicacion():
         ventana_lista.title("Listado detallado de cheques")
         ventana_lista.focus_force()
         ventana_lista.resizable(0,0)
-        ventana_lista.iconbitmap("rab_logo.ico")
+        ventana_lista.iconbitmap("icono_genericos.ico")
         
         self.inhabilitar_botones()
         
@@ -543,8 +543,8 @@ class Aplicacion():
         
     def __init__(self,ventana):
         self.ventana = ventana
-        self.ventana.title("Cascada de Cheques - Textil RAB San Nicolás SRL - © Ramiro Perez")
-        self.ventana.iconbitmap("rab_logo.ico")
+        self.ventana.title("Cascada de Cheques - Genéricos San Nicolás SRL - © Ramiro Perez")
+        self.ventana.iconbitmap("icono_genericos.ico")
         self.ventana.focus_force()
         self.ventana.resizable(0,0)
         
@@ -555,7 +555,7 @@ class Aplicacion():
         framelogo = tk.Frame(self.ventana)
         framelogo.grid(row=0,column=0,padx=5,pady=1,sticky="NS")
 
-        self.img = Image.open(fp=r'rab-png.png')
+        self.img = Image.open(fp=r'gen.png')
         o_size = self.img.size
         f_size = (80,80)
         
@@ -621,7 +621,7 @@ class Aplicacion():
         #------- Saldos --------#
         ####################################################################
         #Saldos
-        frame_saldo = tk.LabelFrame(self.ventana,text="Saldo Bco. Provincia",font=("Arial",12,"bold"), fg="green")
+        frame_saldo = tk.LabelFrame(self.ventana,text="Saldo Bco. Santander",font=("Arial",12,"bold"), fg="red")
         frame_saldo.grid(row=0,column=1,padx=5,pady=1,sticky="NSEW")
         
         frame_entrys = tk.Frame(frame_saldo)
@@ -836,7 +836,7 @@ class Aplicacion():
         ventana = tk.Toplevel()
         ventana.title("Entidades")
         ventana.resizable(0,0)
-        ventana.iconbitmap("rab_logo.ico")
+        ventana.iconbitmap("icono_genericos.ico")
         self.inhabilitar_botones()
         
         fr_nueva_entidad = tk.LabelFrame(ventana,text="Entidades",foreground="green",font=("Arial",12,"bold"))
@@ -1130,8 +1130,8 @@ class Aplicacion():
             
             ventana = tk.Toplevel()
             ventana.title("Modificar cheque")
+            ventana.iconbitmap("icono_genericos.ico")
             ventana.resizable(0,0)
-            ventana.iconbitmap("rab_logo.ico")
             self.inhabilitar_botones()
             
             fr_mod_cheque=tk.LabelFrame(ventana,text="Nuevo Cheque",foreground="green",font=("Arial",12,"bold"))
@@ -1315,7 +1315,7 @@ class Aplicacion():
         ventana = tk.Toplevel()
         ventana.title("Cargar nuevo cheque")
         ventana.resizable(0,0)
-        ventana.iconbitmap("rab_logo.ico")
+        ventana.iconbitmap("icono_genericos.ico")
         
         self.inhabilitar_botones()
         
